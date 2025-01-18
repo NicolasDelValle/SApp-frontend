@@ -10,6 +10,7 @@ const NormalButton = ({
   secondary = false,
   danger = false,
   success = false,
+  icon,
   className,
 }) => {
   const handleAction = useCallback(() => {
@@ -19,7 +20,7 @@ const NormalButton = ({
   return (
     <button
       className={clsx(
-        "p-2 rounded-md text-dark text-xs",
+        "p-2 rounded-md text-goodBlue text-xs font-medium inline-flex gap-1 items-center",
         {
           "bg-dark": disabled,
           "text-white": primary || danger || success,
@@ -33,6 +34,7 @@ const NormalButton = ({
       disabled={disabled}
       onClick={handleAction}
     >
+      {icon}
       {actionLabel}
     </button>
   );

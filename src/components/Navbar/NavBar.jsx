@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { NormalButton, DefaultProfile } from "../../components";
 import { useAuth0 } from "@auth0/auth0-react";
+import { LuUserRoundPlus } from "react-icons/lu";
 
 const NavBar = () => {
   const {
@@ -30,14 +31,37 @@ const NavBar = () => {
     fetchToken();
   }, [isAuthenticated, getAccessTokenSilently, token]);
 
+  const handleRegister = () => {
+    loginWithRedirect({
+      screen_hint: "signup",
+    });
+  };
+
   const AuthButtons = () =>
     isAuthenticated ? (
       <div className="flex items-center gap-2">
         <DefaultProfile picUrl={user.picture} />
-        <NormalButton danger actionLabel="Logout" action={logout} />
+        <NormalButton
+          danger
+          actionLabel="Logout"
+          actiononClick={() =>
+            logout({ logoutParams: { returnTo: window.location.origin } })
+          }
+        />
       </div>
     ) : (
-      <NormalButton primary actionLabel="Login" action={loginWithRedirect} />
+      <>
+        <NormalButton actionLabel="Login" action={loginWithRedirect} />
+        <NormalButton
+          icon={<LuUserRoundPlus />}
+          primary
+          actionLabel="Register"
+          action={() => {
+            const signupUrl = `https://${process.env.REACT_APP_AUTH0_DOMAIN}/authorize?client_id=${process.env.REACT_APP_AUTH0_CLIENTID}&redirect_uri=${window.location.origin}&response_type=token&scope=openid&screen_hint=signup`;
+            window.location.href = signupUrl;
+          }}
+        />
+      </>
     );
 
   return (
