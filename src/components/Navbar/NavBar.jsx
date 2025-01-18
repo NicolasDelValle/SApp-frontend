@@ -31,12 +31,6 @@ const NavBar = () => {
     fetchToken();
   }, [isAuthenticated, getAccessTokenSilently, token]);
 
-  const handleRegister = () => {
-    loginWithRedirect({
-      screen_hint: "signup",
-    });
-  };
-
   const AuthButtons = () =>
     isAuthenticated ? (
       <div className="flex items-center gap-2">
